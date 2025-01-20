@@ -1,0 +1,25 @@
+{
+  "name": "2025-advent-of-code",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "node --test './**/*.test.ts'",
+    "start": "node main.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aletomasella/adventofcode2025.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/aletomasella/adventofcode2025/issues"
+  },
+  "homepage": "https://github.com/aletomasella/adventofcode2025#readme",
+  "description": "Advent of Code 2025",
+  "devDependencies": {
+    "@types/node": "^22.10.7"
+  }
+}
