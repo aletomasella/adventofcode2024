@@ -16,6 +16,12 @@ import {
   dayThreePartTwo,
   PATH_TO_DAY_THREE_TEST_INPUT,
 } from "./DayThree/DayThree.ts";
+import {
+  dayFourPartOne,
+  PATH_TO_DAY_FOUR_INPUT,
+  dayFourPartTwo,
+  PATH_TO_DAY_FOUR_TEST_INPUT,
+} from "./DayFour/DayFour.ts";
 
 function printResult(day: number, part: number, result: string) {
   console.log(`Day ${day} - Part ${part}: ${result}`);
@@ -55,6 +61,13 @@ async function main() {
     2,
     (await dayThreePartTwo(PATH_TO_DAY_THREE_TEST_INPUT)).toString()
   );
+  // DAY FOUR
+  printResult(
+    4,
+    1,
+    (await dayFourPartOne(PATH_TO_DAY_FOUR_TEST_INPUT)).toString()
+  );
+  printResult(4, 2, (await dayFourPartTwo(PATH_TO_DAY_FOUR_INPUT)).toString());
 }
 
 await main();
