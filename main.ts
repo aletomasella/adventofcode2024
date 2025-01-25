@@ -67,7 +67,11 @@ async function main() {
     1,
     (await dayFourPartOne(PATH_TO_DAY_FOUR_TEST_INPUT)).toString()
   );
-  printResult(4, 2, (await dayFourPartTwo(PATH_TO_DAY_FOUR_INPUT)).toString());
+  printResult(
+    4,
+    2,
+    (await dayFourPartTwo(PATH_TO_DAY_FOUR_TEST_INPUT)).toString()
+  );
 }
 
 await main();
