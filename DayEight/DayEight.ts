@@ -4,7 +4,7 @@ const PATH_TO_DAY_EIGHT_TEST_INPUT = "./DayEight/DayEight.input.test.txt";
 const PATH_TO_DAY_EIGHT_INPUT = "./DayEight/DayEight.input.txt";
 
 const RESULT_DAY_EIGHT_PART_ONE_TEST = 14;
-const RESULT_DAY_EIGHT_PART_TWO_TEST = 11387;
+const RESULT_DAY_EIGHT_PART_TWO_TEST = 34;
 
 const EMPTY = ".";
 
@@ -77,7 +77,80 @@ async function dayEightPartOne(path: string): Promise<number> {
 async function dayEightPartTwo(path: string): Promise<number> {
   const data = await readInput(path);
 
-  let result = 0;
+  const matrix = data.split("\n").map((row) => row.split(""));
+
+  const antenasMapper = new Map<string, [number, number][]>();
+
+  const antinodes = new Map<string, [number, number][]>();
+
+  // Mapping antenas
+  for (let i = 0; i < matrix.length; i++) {
+    const row = matrix[i];
+    for (let j = 0; j < row.length; j++) {
+      const cell = row[j];
+
+      if (cell == EMPTY) continue;
+
+      const antenas = antenasMapper.get(cell) || [];
+
+      antenas.push([i, j]);
+
+      antenasMapper.set(cell, antenas);
+    }
+  }
+
+  // Generating antinodes
+  for (const [key, value] of antenasMapper) {
+    for (let i = 0; i < value.length; i++) {
+      const [x, y] = value[i];
+
+      for (let j = 0; j < value.length; j++) {
+        if (i == j) continue;
+
+        const [x2, y2] = value[j];
+
+        const offSetX = x - x2;
+        const offSetY = y - y2;
+
+        let calculatedX = x;
+        let calculatedY = y;
+
+        const antinode = antinodes.get(key) || [];
+
+        // We now add all the antinodes in the direction of the offset until we reach the bounds of the matrix
+        while (
+          calculatedX >= 0 &&
+          calculatedX < matrix.length &&
+          calculatedY >= 0 &&
+          calculatedY < matrix[0].length
+        ) {
+          antinode.push([calculatedX, calculatedY]);
+          antinodes.set(key, antinode);
+
+          calculatedX += offSetX;
+          calculatedY += offSetY;
+        }
+
+        antinodes.set(key, antinode);
+      }
+    }
+  }
+
+  // Cleaning out of bounds antinodes and duplicates
+  const antinodesSet = new Set<string>();
+  for (const [key, value] of antinodes) {
+    // Cleaning out of bounds
+    const cleaned = value.filter(([x, y]) => {
+      return x >= 0 && x < matrix.length && y >= 0 && y < matrix[0].length;
+    });
+
+    // Cleaning duplicates
+    cleaned.forEach(([x, y]) => {
+      antinodesSet.add(`${x},${y}`);
+    });
+  }
+
+  let result = antinodesSet.size;
 
   return result;
 }
