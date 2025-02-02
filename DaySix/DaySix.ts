@@ -90,8 +90,6 @@ function moveGuard({
     }
   }
 
-  console.log("Guard reached the end of the maze");
-
   return moveCounter;
 }
 
