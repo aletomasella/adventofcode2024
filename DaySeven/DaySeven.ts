@@ -4,9 +4,10 @@ const PATH_TO_DAY_SEVEN_TEST_INPUT = "./DaySeven/DaySeven.input.test.txt";
 const PATH_TO_DAY_SEVEN_INPUT = "./DaySeven/DaySeven.input.txt";
 
 const RESULT_DAY_SEVEN_PART_ONE_TEST = 3749;
-const RESULT_DAY_SEVEN_PART_TWO_TEST = 6;
+const RESULT_DAY_SEVEN_PART_TWO_TEST = 11387;
 
-const POSIBLE_OPERATIONS = ["*", "+"];
+const POSIBLE_OPERATIONS_PART_ONE = ["*", "+"];
+const POSIBLE_OPERATIONS_PART_TWO = ["*", "+", "|"];
 
 const RESULT_SEPARETOR = ":";
 
@@ -39,6 +40,10 @@ function processNumbers(
         currentResult *= secondNumber as number;
         resultMapper.set(op, currentResult);
         break;
+      case "|":
+        currentResult = Number(`${firstNumber}${secondNumber}`);
+        resultMapper.set(op, currentResult);
+        break;
     }
   }
 
@@ -64,6 +69,15 @@ function processNumbers(
           case "*": {
             currentResult = currentNumber * currentCalculatedResult;
             resultMapper.set(`${key}${op}`, currentResult);
+            break;
+          }
+          case "|": {
+            // We concat the previous result to the current number
+            currentResult = Number(
+              `${currentCalculatedResult}${currentNumber}`
+            );
+            resultMapper.set(`${key}${op}`, currentResult);
+
             break;
           }
         }
@@ -106,10 +120,9 @@ async function daySevenPartOne(path: string): Promise<number> {
     const lineProcessResult = processNumbers(
       resultNumber,
       numbersArray,
-      POSIBLE_OPERATIONS
+      POSIBLE_OPERATIONS_PART_ONE
     );
 
-    // lineProcessResult && console.log("Line process result", lineProcessResult);
     result += lineProcessResult;
   }
 
@@ -119,7 +132,32 @@ async function daySevenPartOne(path: string): Promise<number> {
 async function daySevenPartTwo(path: string): Promise<number> {
   const data = await readInput(path);
 
-  return -1;
+  const lines = data.split("\n");
+
+  let result = 0;
+
+  for (const line of lines) {
+    const [lineResult, numbers] = line.split(RESULT_SEPARETOR);
+
+    const resultNumber = Number(lineResult.trim());
+
+    if (isNaN(resultNumber)) continue;
+
+    const numbersArray = numbers
+      .split(NUMBER_SEPARATOR)
+      .filter((n) => n.trim())
+      .map((n) => Number(n.trim()));
+
+    const lineProcessResult = processNumbers(
+      resultNumber,
+      numbersArray,
+      POSIBLE_OPERATIONS_PART_TWO
+    );
+
+    result += lineProcessResult;
+  }
+
+  return result;
 }
 
 export {

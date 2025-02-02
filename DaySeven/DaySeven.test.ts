@@ -12,7 +12,7 @@ assert.deepEqual(
   RESULT_DAY_SEVEN_PART_ONE_TEST
 );
 
-// assert.deepEqual(
-//   await daySevenPartTwo(PATH_TO_DAY_SEVEN_TEST_INPUT),
-//   RESULT_DAY_SEVEN_PART_TWO_TEST
-// );
+assert.deepEqual(
+  await daySevenPartTwo(PATH_TO_DAY_SEVEN_TEST_INPUT),
+  RESULT_DAY_SEVEN_PART_TWO_TEST
+);
